@@ -34,6 +34,9 @@ namespace crudopration.Controllers
                 return NotFound();
             }
             return user;
+
+
+
         }
 
         // Add a new user
