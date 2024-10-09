@@ -8,55 +8,68 @@ namespace crudopration.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserContext userContext;
+        private readonly UserContext _userContext;
 
         public UsersController(UserContext userContext)
         {
-            this.userContext = userContext;
+            _userContext = userContext;
         }
 
+        // Get the list of all users
         [HttpGet]
         [Route("getuserslist")]
-        public List<Users> GetUsers()
+        public ActionResult<List<Users>> GetUsers()
         {
-            return userContext.users.ToList();
+            return _userContext.users.ToList();
         }
 
-        //single user get API
+        // Get a single user by id
         [HttpGet]
-        [Route("getusers")]
-        public Users GetUsers(int id)
+        [Route("getuser/{id}")]
+        public ActionResult<Users> GetUser(int id)
         {
-            return userContext.users.Where(x=> x.ID == id).FirstOrDefault();
-
+            var user = _userContext.users.FirstOrDefault(x => x.ID == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return user;
         }
 
+        // Add a new user
         [HttpPost]
         [Route("AddUser")]
-        public string AddUser(Users users)
+        public async Task<ActionResult<string>> AddUser(Users user)
         {
-            string rersponse = string.Empty;
-            userContext.Add(users);
-            userContext.AddAsync(users);
-            return "User added";
+            _userContext.users.Add(user);
+            await _userContext.SaveChangesAsync(); // Save changes
+            return "User added successfully";
         }
 
+        // Update an existing user
         [HttpPut]
         [Route("UpdateUser")]
-        public string UpdateUser(Users user)
+        public async Task<ActionResult<string>> UpdateUser(Users user)
         {
-            userContext.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            userContext.SaveChanges();
-            return "User Updatd";
+            _userContext.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await _userContext.SaveChangesAsync(); // Save changes
+            return "User updated successfully";
         }
 
+        // Delete a user
         [HttpDelete]
-        [Route("DeleteUser")]
-        public string DeleteUser(Users user)
+        [Route("DeleteUser/{id}")]
+        public async Task<ActionResult<string>> DeleteUser(int id)
         {
-            userContext.Remove(user);
-            userContext.SaveChanges();
-            return "User deleted";
+            var user = await _userContext.users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            _userContext.Remove(user);
+            await _userContext.SaveChangesAsync(); // Save changes
+            return "User deleted successfully";
         }
     }
 }
