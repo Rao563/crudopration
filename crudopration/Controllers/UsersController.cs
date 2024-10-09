@@ -35,8 +35,6 @@ namespace crudopration.Controllers
             }
             return user;
 
-
-
         }
 
         // Add a new user
@@ -49,16 +47,7 @@ namespace crudopration.Controllers
             return "User added successfully";
         }
 
-        // Update an existing user
-        [HttpPut]
-        [Route("UpdateUser")]
-        public async Task<ActionResult<string>> UpdateUser(Users user)
-        {
-            _userContext.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            await _userContext.SaveChangesAsync(); // Save changes
-            return "User updated successfully";
-        }
-
+       
         // Delete a user
         [HttpDelete]
         [Route("DeleteUser/{id}")]
