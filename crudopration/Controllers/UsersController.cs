@@ -23,19 +23,19 @@ namespace crudopration.Controllers
             return _userContext.users.ToList();
         }
 
-        //// Get a single user by id
-        //[HttpGet]
-        //[Route("getuser/{id}")]
-        //public ActionResult<Users> GetUser(int id)
-        //{
-        //    var user = _userContext.users.FirstOrDefault(x => x.ID == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return user;
+        // Get a single user by id
+        [HttpGet]
+        [Route("getuser/{id}")]
+        public ActionResult<Users> GetUser(int id)
+        {
+            var user = _userContext.users.FirstOrDefault(x => x.ID == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return user;
 
-        //}
+        }
 
         // Add a new user
         [HttpPost]
