@@ -1,4 +1,5 @@
-﻿using crudopration.Models;
+﻿using crudopration.DetailRto;
+using crudopration.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,5 +66,19 @@ namespace crudopration.Controllers
         }
 
 
+        [HttpGet]
+        [Route("getbyrto")]
+        public ActionResult<UserRTO> GetbyRto(int id)
+        {
+            var user = _userContext.users
+               .Where(x=>x.ID==id)
+                .Select(x => new UserRTO
+            {
+                Name = x.Name,
+                Id =x.ID
+            }).ToArray();
+
+            return Ok(user);
+        }
     }
 }
