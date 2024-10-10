@@ -75,10 +75,12 @@ namespace crudopration.Controllers
                 .Select(x => new UserRTO
             {
                 Name = x.Name,
-                Id =x.ID
-            }).ToArray();
-
+                Id =x.ID,
+                ContactNo = x.ContactNo
+            }).ToList();
             return Ok(user);
         }
+
+
     }
 }
