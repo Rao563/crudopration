@@ -61,7 +61,7 @@ namespace crudopration.Controllers
             }
 
             _userContext.Remove(user);
-            await _userContext.SaveChangesAsync(); // Save changes
+            await _userContext.SaveChangesAsync();   //Save changes
             return "User deleted successfully";
         }
 
