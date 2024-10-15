@@ -77,7 +77,7 @@ namespace crudopration.Controllers
                 Name = x.Name,
                 Id =x.ID,
                 ContactNo = x.ContactNo
-            }).ToList();
+            }).ToArray();
             return Ok(user);
         }
 
